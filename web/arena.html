@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>竞技场 - ELO 评测</title>
+    <link rel="stylesheet" href="app.css">
+    <style>
+        .arena-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .player-config {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .player-card {
+            flex: 1;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+        }
+        .player-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .player-a {
+            border-color: #e74c3c;
+        }
+        .player-b {
+            border-color: #3498db;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .start-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .start-button:hover {
+            background: #229954;
+        }
+        .start-button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .results-container {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card h4 {
+            margin: 0 0 10px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+        .elo-diff {
+            background: #e8f5e9;
+        }
+        .elo-diff.negative {
+            background: #ffebee;
+        }
+        .win-rate {
+            background: #e3f2fd;
+        }
+        .game-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .game-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .game-item:hover {
+            background: #f5f5f5;
+        }
+        .game-number {
+            font-weight: bold;
+            color: #666;
+        }
+        .game-matchup {
+            flex: 1;
+            margin: 0 15px;
+        }
+        .game-result {
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+        .game-result.win-a {
+            background: #e74c3c;
+            color: white;
+        }
+        .game-result.win-b {
+            background: #3498db;
+            color: white;
+        }
+        .game-result.draw {
+            background: #95a5a6;
+            color: white;
+        }
+        .progress {
+            margin: 20px 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #ecf0f1;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .nav-links {
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            margin-right: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="arena-container">
+        <div class="nav-links">
+            <a href="/">← 返回游戏</a>
+            <a href="/web/model.html">模型查看器</a>
+        </div>
+
+        <h1>🏆 竞技场 - ELO 评测</h1>
+        <p>比较两个引擎/模型的强度，计算 ELO 分差</p>
+
+        <div class="player-config">
+            <div class="player-card player-a">
+                <h3>🔴 玩家 A</h3>
+                <div class="form-group">
+                    <label>引擎类型</label>
+                    <select id="engineA">
+                        <option value="random">随机</option>
+                        <option value="alphabeta">Alpha-Beta</option>
+                        <option value="mcts">MCTS</option>
+                        <option value="mcts_nn" selected>MCTS + NN</option>
+                    </select>
+                </div>
+                <div class="form-group" id="modelGroupA">
+                    <label>模型路径</label>
+                    <input type="text" id="modelA" value="models/latest.pt" placeholder="models/latest.pt">
+                </div>
+                <div class="form-group" id="depthGroupA" style="display:none;">
+                    <label>搜索深度</label>
+                    <input type="number" id="depthA" value="3" min="1" max="8">
+                </div>
+                <div class="form-group" id="simsGroupA">
+                    <label>MCTS 模拟次数</label>
+                    <input type="number" id="simsA" value="200" min="10" max="2000">
+                </div>
+            </div>
+
+            <div class="player-card player-b">
+                <h3>🔵 玩家 B</h3>
+                <div class="form-group">
+                    <label>引擎类型</label>
+                    <select id="engineB">
+                        <option value="random">随机</option>
+                        <option value="alphabeta">Alpha-Beta</option>
+                        <option value="mcts" selected>MCTS</option>
+                        <option value="mcts_nn">MCTS + NN</option>
+                    </select>
+                </div>
+                <div class="form-group" id="modelGroupB" style="display:none;">
+                    <label>模型路径</label>
+                    <input type="text" id="modelB" value="models/latest.pt" placeholder="models/latest.pt">
+                </div>
+                <div class="form-group" id="depthGroupB" style="display:none;">
+                    <label>搜索深度</label>
+                    <input type="number" id="depthB" value="3" min="1" max="8">
+                </div>
+                <div class="form-group" id="simsGroupB">
+                    <label>MCTS 模拟次数</label>
+                    <input type="number" id="simsB" value="200" min="10" max="2000">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>对战局数 (偶数，各执红黑各半)</label>
+            <input type="number" id="nGames" value="10" min="2" max="100" step="2">
+        </div>
+
+        <button class="start-button" id="startBtn" onclick="startArena()">
+            开始对战
+        </button>
+
+        <div class="progress" id="progress" style="display:none;">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill">0%</div>
+            </div>
+        </div>
+
+        <div class="results-container" id="results" style="display:none;">
+            <h2>对战结果</h2>
+            <div class="results-summary">
+                <div class="stat-card elo-diff" id="eloDiffCard">
+                    <h4>ELO 分差 (A - B)</h4>
+                    <div class="value" id="eloDiff">-</div>
+                </div>
+                <div class="stat-card win-rate">
+                    <h4>A 胜率</h4>
+                    <div class="value" id="winRate">-</div>
+                </div>
+                <div class="stat-card">
+                    <h4>A 胜 / 和 / 负</h4>
+                    <div class="value" id="record">-</div>
+                </div>
+            </div>
+
+            <h3>对局详情</h3>
+            <div class="game-list" id="gameList"></div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+    <script src="arena.js" type="text/babel" data-presets="es2015,react"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</body>
+</html>
+

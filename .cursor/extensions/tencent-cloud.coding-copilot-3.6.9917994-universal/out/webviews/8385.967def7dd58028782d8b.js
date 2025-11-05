@@ -1,0 +1,2 @@
+(self.webpackChunk_genie_chat_webview_app=self.webpackChunk_genie_chat_webview_app||[]).push([[8385],{48385:(e,_,a)=>{"use strict";Object.defineProperty(_,"__esModule",{value:!0}),a(57497);const t=a(15985);_.default=(0,t.autoBind)()},57497:()=>{}}]);
+//# sourceMappingURL=8385.967def7dd58028782d8b.js.map

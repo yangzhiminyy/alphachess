@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_genie_chat_webview_app=self.webpackChunk_genie_chat_webview_app||[]).push([[9675],{59675:(e,a,_)=>{_.d(a,{createInfoServices:()=>c.v});var c=_(21403);_(91309)}}]);

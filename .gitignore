@@ -1,0 +1,6 @@
+.cursor/
+data/
+models/
+xiangqi/
+api/server_bkup.py
+__pycache__/
