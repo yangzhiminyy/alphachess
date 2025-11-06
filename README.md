@@ -162,9 +162,7 @@ N × Residual Blocks
 **Algorithm:** PUCT (Predictor + Upper Confidence Bound for Trees)
 
 **Formula:**
-$$
-UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)} }{(1 + N(s,a))} 
-$$
+$$ UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)} }{(1 + N(s,a))} $$
 
 **Features:**
 - Dirichlet noise for exploration (α=0.3)
@@ -855,9 +853,7 @@ N × 残差块
 **算法：** PUCT（预测器 + 树的置信上界）
 
 **公式：**
-$$
-UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)}} {(1 + N(s,a))}
-$$
+$$ UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)}} {(1 + N(s,a))} $$
 
 **特性：**
 - Dirichlet 噪声用于探索（α=0.3）
