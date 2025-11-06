@@ -6,3 +6,9 @@ api/server_bkup.py
 **/__pycache__/
 **/*.pyc
 **/*.log
+
+# Azure 部署配置（包含敏感信息）
+azure_config.env
+.env
+*.pem
+*.key

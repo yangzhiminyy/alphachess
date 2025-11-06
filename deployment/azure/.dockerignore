@@ -1,0 +1,45 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Data files (too large for container image)
+data/*.jsonl
+models/*.pt
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# IDE
+.vscode/
+.cursor/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+debug.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (not needed in container)
+docs/
+*.md
+!requirements.txt
+
+# Tests
+test_*.py
+*_test.py
+

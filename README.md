@@ -24,6 +24,7 @@
 - 🔌 RESTful API with FastAPI
 - 🎨 Model visualization and inspection tools
 - 🔄 Generic framework extensible to other board games
+- ☁️ Azure cloud deployment with automated scripts
 
 ### Technology Stack
 
@@ -382,7 +383,9 @@ Response: {
 
 ### Installation & Setup
 
-#### Prerequisites
+#### Local Installation
+
+**Prerequisites:**
 ```bash
 # Python 3.10 or higher
 python --version
@@ -391,7 +394,7 @@ python --version
 pip --version
 ```
 
-#### Install Dependencies
+**Install Dependencies:**
 ```bash
 # Core dependencies
 pip install torch torchvision  # PyTorch
@@ -402,7 +405,7 @@ pip install numpy              # Numerical computing
 pip install torch --index-url https://download.pytorch.org/whl/cu118
 ```
 
-#### Quick Start
+**Quick Start:**
 
 1. **Clone or download the project**
 
@@ -415,6 +418,29 @@ uvicorn api.server:app --host 127.0.0.1 --port 8000
 - Main game: http://127.0.0.1:8000/web/
 - Model viewer: http://127.0.0.1:8000/web/model.html
 - Arena: http://127.0.0.1:8000/web/arena.html
+
+#### ☁️ Azure Cloud Deployment
+
+For production deployment with GPU training on Azure cloud:
+
+**Quick Deploy (10 minutes):**
+```bash
+cd deployment/azure/scripts
+bash deploy_to_azure.sh
+```
+
+**Documentation:**
+- 📖 [Azure Quick Start Guide](deployment/azure/docs/AZURE_QUICKSTART.md) - Start here!
+- 📖 [Complete Deployment Guide](deployment/azure/docs/azure_deployment_guide.md) - Full details
+- 📋 [Deployment Checklist](deployment/azure/docs/deployment_checklist.md) - Step-by-step
+- 💰 Cost: ~$50/month (includes GPU training)
+
+**Features:**
+- One-click deployment to Azure App Service
+- Automated GPU training on Azure VM
+- Blob Storage for models and data
+- Auto-scaling and monitoring
+- Budget-friendly ($150/month plan included)
 
 ### Usage Examples
 
@@ -715,6 +741,7 @@ For job opportunities or technical discussions, please contact via GitHub.
 - 🔌 基于 FastAPI 的 RESTful API
 - 🎨 模型可视化和检查工具
 - 🔄 可扩展到其他棋类游戏的通用框架
+- ☁️ Azure 云部署，配有自动化脚本
 
 ### 技术栈
 
@@ -1073,7 +1100,9 @@ Response: {
 
 ### 安装与设置
 
-#### 前置要求
+#### 本地安装
+
+**前置要求：**
 ```bash
 # Python 3.10 或更高版本
 python --version
@@ -1082,7 +1111,7 @@ python --version
 pip --version
 ```
 
-#### 安装依赖
+**安装依赖：**
 ```bash
 # 核心依赖
 pip install torch torchvision  # PyTorch
@@ -1093,7 +1122,7 @@ pip install numpy              # 数值计算
 pip install torch --index-url https://download.pytorch.org/whl/cu118
 ```
 
-#### 快速开始
+**快速开始：**
 
 1. **克隆或下载项目**
 
@@ -1106,6 +1135,29 @@ uvicorn api.server:app --host 127.0.0.1 --port 8000
 - 主游戏：http://127.0.0.1:8000/web/
 - 模型查看器：http://127.0.0.1:8000/web/model.html
 - 竞技场：http://127.0.0.1:8000/web/arena.html
+
+#### ☁️ Azure 云部署
+
+生产环境部署，支持 GPU 训练：
+
+**快速部署（10 分钟）：**
+```bash
+cd deployment/azure/scripts
+bash deploy_to_azure.sh
+```
+
+**文档资源：**
+- 📖 [Azure 快速开始指南](deployment/azure/docs/AZURE_QUICKSTART.md) - 从这里开始！
+- 📖 [完整部署指南](deployment/azure/docs/azure_deployment_guide.md) - 详细说明
+- 📋 [部署检查清单](deployment/azure/docs/deployment_checklist.md) - 分步指导
+- 💰 成本：约 $50/月（包含 GPU 训练）
+
+**特性：**
+- 一键部署到 Azure App Service
+- Azure VM 上自动化 GPU 训练
+- Blob Storage 存储模型和数据
+- 自动扩展和监控
+- 预算友好（包含 $150/月方案）
 
 ### 使用示例
 
