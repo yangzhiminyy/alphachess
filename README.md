@@ -1,3 +1,5 @@
+![chess board](/screenshots/board.png)
+
 # AlphaChess - Chinese Chess AI with AlphaZero
 
 [English](#english) | [中文](#chinese)
