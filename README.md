@@ -163,7 +163,7 @@ N × Residual Blocks
 
 **Formula:**
 $$
-UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt(N(s)) }{(1 + N(s,a))} 
+UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)} }{(1 + N(s,a))} 
 $$
 
 **Features:**
@@ -856,7 +856,7 @@ N × 残差块
 
 **公式：**
 $$
-UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt(N(s))} {(1 + N(s,a))}
+UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)}} {(1 + N(s,a))}
 $$
 
 **特性：**
