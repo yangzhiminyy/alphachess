@@ -201,6 +201,54 @@ def test_game_interface():
     return True
 
 
+def test_cannon_legal_capture():
+    """Ensure cannon capture generation includes screen-based captures."""
+    print("\nTesting cannon capture generation...")
+    
+    from xq import constants as C
+    from xq.state import GameState
+    
+    state = GameState()
+    # Clear board and set up custom position
+    state.board = [0] * C.NUM_SQUARES
+    state.side_to_move = C.RED
+    
+    # Place kings (required for validity) and a blocking piece to avoid direct facing
+    red_king_sq = C.index_of(4, 0)
+    black_king_sq = C.index_of(4, 9)
+    state.board[red_king_sq] = C.make_piece(C.RED, C.PT_KING)
+    state.board[black_king_sq] = C.make_piece(C.BLACK, C.PT_KING)
+    # Add blocking piece between kings so position is legal
+    state.board[C.index_of(4, 5)] = C.make_piece(C.RED, C.PT_PAWN)
+    state.red_king_sq = red_king_sq
+    state.black_king_sq = black_king_sq
+    
+    # Place red cannon, red pawn as screen, black rook as target
+    cannon_sq = C.index_of(1, 2)
+    screen_sq = C.index_of(1, 3)
+    target_sq = C.index_of(1, 5)
+    state.board[cannon_sq] = C.make_piece(C.RED, C.PT_CANNON)
+    state.board[screen_sq] = C.make_piece(C.RED, C.PT_PAWN)
+    state.board[target_sq] = C.make_piece(C.BLACK, C.PT_ROOK)
+    
+    # Recompute zobrist and histories to match new board
+    state.undo_stack.clear()
+    state.history.clear()
+    state.history_gives_check.clear()
+    state.history_capture.clear()
+    state.history_chase_pair.clear()
+    state._init_state()
+    state.side_to_move = C.RED
+    
+    legal = state.generate_legal_moves()
+    capture_exists = any(m.from_sq == cannon_sq and m.to_sq == target_sq for m in legal)
+    
+    assert capture_exists, "Cannon capture over single screen should be legal"
+    print(f"{CHECK} Cannon capture detected as legal (total legal moves: {len(legal)})")
+    
+    return True
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -213,6 +261,7 @@ def main():
         ("Generic Framework", test_generic_framework),
         ("Model Compatibility", test_model_compatibility),
         ("GameInterface", test_game_interface),
+        ("Cannon Capture", test_cannon_legal_capture),
     ]
     
     passed = 0
