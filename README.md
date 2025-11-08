@@ -167,6 +167,13 @@ N × Residual Blocks
 UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)} }{(1 + N(s,a))}
 ```
 
+Where:
+- `Q(s,a)` is the mean value estimate for taking action `a` in state `s` (backed-up search value, range [-1, 1]).
+- `P(s,a)` is the prior probability of action `a` suggested by the policy network.
+- `N(s)` is the visit count of node `s` (number of times the state has been explored).
+- `N(s,a)` is the visit count of the edge (s, a), i.e. how many simulations chose action `a` from state `s`.
+- `c_puct` is an exploration constant (default 1.5) balancing exploitation (`Q`) and exploration (prior `P` scaled by counts).
+
 **Features:**
 - Dirichlet noise for exploration (α=0.3)
 - Temperature parameter for action selection
@@ -885,6 +892,13 @@ N × 残差块
 ```math
 UCT = Q(s,a) + c\_puct × P(s,a) × \frac{\sqrt{N(s)}} {(1 + N(s,a))}
 ```
+
+其中：
+- `Q(s,a)` 表示在状态 `s` 下执行动作 `a` 的平均价值评估（范围 [-1, 1]，来自搜索回溯）。
+- `P(s,a)` 表示策略网络给出的先验概率，指示动作 `a` 的先验偏好。
+- `N(s)` 表示节点 `s` 总的访问次数（该状态被模拟的次数）。
+- `N(s,a)` 表示边 `(s, a)` 的访问次数（从状态 `s` 选择动作 `a` 的次数）。
+- `c_puct` 为探索系数（默认 1.5），用于平衡价值估计 `Q` 与先验概率 `P` 的探索。
 
 **特性：**
 - Dirichlet 噪声用于探索（α=0.3）
